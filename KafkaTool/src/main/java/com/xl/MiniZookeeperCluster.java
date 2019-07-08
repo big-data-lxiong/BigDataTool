@@ -9,6 +9,18 @@ public class MiniZookeeperCluster {
 
   private NIOServerCnxnFactory factory;
 
+  private String snapDir;
+  private String logDir;
+
+  public MiniZookeeperCluster(){
+
+  }
+
+  public MiniZookeeperCluster(String snapDir, String logDir){
+    this.snapDir = snapDir;
+    this.logDir = logDir;
+  }
+
   public void start(){
     try {
       factory = new NIOServerCnxnFactory();
@@ -18,6 +30,10 @@ public class MiniZookeeperCluster {
       e.printStackTrace();
     }
 
+  }
+
+  public String getConnectionString() {
+    return "127.0.0.1:100000";
   }
 
 }

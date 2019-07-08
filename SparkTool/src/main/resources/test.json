@@ -1,0 +1,21 @@
+{
+  "table": "df_test",
+  "description": "",
+  "columns": [
+    {
+      "name": "batch_id",
+      "dataType": "string",
+      "default": ""
+    },
+    {
+      "name": "file_id",
+      "dataType": "integer",
+      "default": 0
+    },
+    {
+      "name": "delimeter",
+      "dataType": "string",
+      "default": ""
+    }
+  ]
+}
