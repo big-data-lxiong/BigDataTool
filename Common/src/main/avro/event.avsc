@@ -1,0 +1,48 @@
+{
+	"namespace": "com.xl.message",
+	"type": "record",
+	"name": "Event",
+	"fields": [{
+		"name": "snapshot_id",
+		"type": "long"
+	}, {
+		"name": "timestamp",
+		"type": "long"
+	}, {
+		"name": "request_headers",
+		"type": {
+		    "type": "string",
+		    "avro.java.string": "String"
+        }
+	}, {
+		"name": "uri",
+		"type": {
+		    "type": "string",
+            "avro.java.string": "String"
+        }
+	}, {
+		"name": "response_headers",
+		"type": {
+            "type": "string",
+            "avro.java.string": "String"
+        }
+	}, {
+		"name": "channel_action",
+		"type":{
+            "type": "string",
+            "avro.java.string": "String"
+        }
+    }, {
+		"name": "channel_type",
+		"type": {
+            "type": "string",
+            "avro.java.string": "String"
+        }
+	}, {
+		"name": "http_method",
+		"type": {
+            "type": "string",
+            "avro.java.string": "String"
+        }
+	}]
+}

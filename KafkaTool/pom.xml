@@ -14,10 +14,9 @@
     <version>1.0-SNAPSHOT</version>
     <dependencies>
         <dependency>
-            <groupId>org.apache.avro</groupId>
-            <artifactId>avro</artifactId>
-            <version>1.8.2</version>
-            <scope>compile</scope>
+            <artifactId>Common</artifactId>
+            <groupId>com.xl</groupId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

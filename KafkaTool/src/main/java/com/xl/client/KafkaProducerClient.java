@@ -1,16 +1,16 @@
 package com.xl.client;
 
+import org.apache.avro.generic.GenericRecord;
 import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.Producer;
 
 import java.util.Properties;
 
-public class KafkaProducerClient {
+public class KafkaProducerClient <K, V extends GenericRecord>  {
 
   private static KafkaProducerClient INSTANCE = new KafkaProducerClient();
   private static Properties pro;
 
-  private Producer producer;
+  private KafkaProducer producer;
 
   private KafkaProducerClient() {
   }
@@ -20,7 +20,11 @@ public class KafkaProducerClient {
     producer = new KafkaProducer(pro);
   }
 
-  public Producer create(){
+  public static KafkaProducerClient getInstance(){
+    return INSTANCE;
+  }
+
+  public KafkaProducer<K, V> create(){
 
     return producer;
   }

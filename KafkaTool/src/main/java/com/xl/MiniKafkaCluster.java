@@ -155,12 +155,11 @@ public class MiniKafkaCluster {
 	}
 
 	private KafkaServer startBroker(KafkaConfig config) {
-		KafkaServer server = new KafkaServer(config, new SystemTime()
-			, Option.<String>empty(),
-			JavaConversions.asScalaBuffer(Collections.<KafkaMetricsReporter>emptyList()));
-		server.startup();
+//		KafkaServer server = new KafkaServer(config, new SystemTime()
+//			, Option.<String>empty(), JavaConversions.asScalaBuffer(Collections.emptyList()));
+//		server.startup();
 
-		return server;
+		return null;
 	}
 
 	private static class SystemTime implements Time {
