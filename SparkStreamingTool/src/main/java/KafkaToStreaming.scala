@@ -34,7 +34,7 @@ object KafkaToStreaming extends App {
     val topics = Array("test")
 
     //一分钟执行一次
-    val ssc = new StreamingContext(conf, Seconds(10))
+    val ssc = new StreamingContext(conf, Seconds(60))
     val kafkaStreaming = KafkaUtils.createDirectStream(ssc, PreferConsistent, Subscribe[java.lang.Long, Event](topics, kafkaParams))
 
 //        val lines = kafkaStreaming.map(record => record.value).saveAsTextFiles( "hdfs://localhost:9000/apps/sparkstreaming/data")
@@ -45,12 +45,11 @@ object KafkaToStreaming extends App {
           .builder[GenericRecord](new Path("hdfs://localhost:9000/apps/sparkstreaming/data-" + System.currentTimeMillis() + ".parquet"))
           .withSchema(Event.getClassSchema())
           .withConf(hadoopConf)
-          .withCompressionCodec(CompressionCodecName.SNAPPY)
+          .withCompressionCodec(CompressionCodecName.UNCOMPRESSED)
           .build()
 
         while (ite.hasNext) {
           val event = ite.next().value()
-          println(event)
           writer.write(event)
         }
         writer.close()
