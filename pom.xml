@@ -27,14 +27,22 @@
         <module>HbaseTool</module>
         <module>HiveTool</module>
         <module>Common</module>
+        <module>JavaBaseApi</module>
+        <module>MemcacheServer</module>
+        <module>MemcacheClient</module>
+        <module>Test</module>
+        <module>HttpServer</module>
+        <module>HttpClient</module>
+        <module>NIO</module>
     </modules>
 
     <properties>
         <zookeeper.version>3.4.6</zookeeper.version>
         <kafka.version>1.1.1</kafka.version>
-        <spark.version>2.4.0</spark.version>
-        <scala.compat.version>2.12</scala.compat.version>
+        <spark.version>2.3.0</spark.version>
+        <scala.compat.version>2.11</scala.compat.version>
         <parquet.version>1.8.2</parquet.version>
+        <scala.version>2.11.5</scala.version>
     </properties>
 
     <dependencies>
@@ -138,8 +146,8 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <sourceDirectory>src/main/scala</sourceDirectory>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>
         <outputDirectory>target/classes</outputDirectory>
         <testOutputDirectory>${project.basedir}/target/test-classes</testOutputDirectory>
         <resources>
@@ -149,32 +157,6 @@
         </resources>
         <plugins>
             <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.7.201606060606</version>
-                <executions>
-                    <execution>
-                        <id>agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>post-test</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <destFile>${basedir}/target/jacoco-unit.exe</destFile>
-                    <dataFile>${basedir}/target/jacoco-unit.exe</dataFile>
-                    <append>true</append>
-                    <propertyName>surefireArgLine</propertyName>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.18.1</version>
@@ -182,7 +164,6 @@
                     <forkMode>once</forkMode>
                     <forkCount>1.0C</forkCount>
                     <reuseForks>false</reuseForks>
-                    <argLine>-Xverify:none -Xmx1024m ${surefireArgLine}</argLine>
                 </configuration>
             </plugin>
             <plugin>
@@ -204,6 +185,41 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.2.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <scalaVersion>${scala.version}</scalaVersion>
+                    <recompileMode>incremental</recompileMode>
+                    <useZincServer>true</useZincServer>
+                    <args>
+                        <arg>-unchecked</arg>
+                        <arg>-deprecation</arg>
+                        <arg>-feature</arg>
+                    </args>
+                    <jvmArgs>
+                        <jvmArg>-Xms1024m</jvmArg>
+                        <jvmArg>-Xmx1024m</jvmArg>
+                        <jvmArg>-Xss512m</jvmArg>
+                    </jvmArgs>
+                    <javacArgs>
+                        <javacArg>-source</javacArg>
+                        <javacArg>${java.version}</javacArg>
+                        <javacArg>-target</javacArg>
+                        <javacArg>${java.version}</javacArg>
+                        <javacArg>-Xlint:all,-serial,-path</javacArg>
+                    </javacArgs>
                 </configuration>
             </plugin>
             <plugin>
@@ -229,23 +245,6 @@
                                     </excludes>
                                 </filter>
                             </filters>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.avro</groupId>
-                <artifactId>avro-maven-plugin</artifactId>
-                <version>1.8.2</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>schema</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirectory>${project.basedir}/src/main/avro/</sourceDirectory>
-                            <outputDirectory>${project.basedir}/src/main/java/</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
